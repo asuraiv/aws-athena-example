@@ -1,6 +1,6 @@
 package com.asuraiv.awsathena.example.job.config
 
-import com.asuraiv.awsathena.example.job.AthenaSampleTasklet
+import com.asuraiv.awsathena.example.job.SampleTasklet
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class AthenaSampleJobConfig(
+class SampleJobConfig(
     val jobBuilderFactory: JobBuilderFactory,
     val stepBuilderFactory: StepBuilderFactory,
-    val athenaSampleTasklet: AthenaSampleTasklet
+    val sampleTasklet: SampleTasklet
 ) {
 
     @Bean
@@ -25,7 +25,7 @@ class AthenaSampleJobConfig(
     @Bean
     fun athenaSampleStep(): TaskletStep {
         return stepBuilderFactory["createBusScheduleStep"]
-            .tasklet(athenaSampleTasklet)
+            .tasklet(sampleTasklet)
             .build()
     }
 }
