@@ -9,6 +9,7 @@ import org.springframework.batch.repeat.RepeatStatus
 import org.springframework.stereotype.Component
 import software.amazon.awssdk.services.athena.AthenaClient
 import software.amazon.awssdk.services.athena.model.*
+import software.amazon.awssdk.services.athena.paginators.GetQueryResultsIterable
 
 @Component
 class SampleTasklet(
@@ -25,9 +26,14 @@ class SampleTasklet(
 
         waitForQueryToComplete(queryExecutionId)
 
+        printResultRows(queryExecutionId)
+
         return RepeatStatus.FINISHED
     }
 
+    /*
+        Query 실행
+     */
     private fun submitSampleQuery(): String {
 
         val queryExecutionContext = QueryExecutionContext.builder()
@@ -48,6 +54,9 @@ class SampleTasklet(
         return athenaClient.startQueryExecution(startQueryExecutionRequest).queryExecutionId()
     }
 
+    /*
+        Query 완료 대기
+     */
     private fun waitForQueryToComplete(queryExecutionId: String) {
 
         val getQueryExecutionRequest = GetQueryExecutionRequest.builder()
@@ -58,16 +67,18 @@ class SampleTasklet(
 
         var isRunning = true
 
-        while(isRunning) {
+        while (isRunning) {
 
             getQueryExecutionResponse = athenaClient.getQueryExecution(getQueryExecutionRequest)
 
             val state = getQueryExecutionResponse.queryExecution().status().state().toString()
 
-            when(state) {
+            when (state) {
 
-                QueryExecutionState.FAILED.toString() -> throw RuntimeException("Query Failed to run with Error Message: ${getQueryExecutionResponse
-                    .queryExecution().status().stateChangeReason()}")
+                QueryExecutionState.FAILED.toString() -> throw RuntimeException("Query Failed to run with Error Message: ${
+                    getQueryExecutionResponse
+                        .queryExecution().status().stateChangeReason()
+                }")
 
                 QueryExecutionState.CANCELLED.toString() -> throw RuntimeException("Query was canceled.")
 
@@ -77,6 +88,28 @@ class SampleTasklet(
             }
 
             log.info("Current state is $state")
+        }
+    }
+
+    /*
+        결과 행 출력
+     */
+    private fun printResultRows(queryExecutionId: String) {
+
+        val getQueryResultsRequest = GetQueryResultsRequest.builder()
+            .queryExecutionId(queryExecutionId)
+            .build()
+
+        val results: GetQueryResultsIterable = athenaClient.getQueryResultsPaginator(getQueryResultsRequest)
+
+        for(result in results) {
+            for (row in result.resultSet().rows()) {
+                val datumList: List<Datum> = row.data()
+                for (datum in datumList) {
+                    print("${datum.varCharValue()}\t")
+                }
+                println()
+            }
         }
     }
 }
