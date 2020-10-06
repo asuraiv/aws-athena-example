@@ -12,11 +12,11 @@ import software.amazon.awssdk.services.athena.model.*
 import software.amazon.awssdk.services.athena.paginators.GetQueryResultsIterable
 
 @Component
-class SampleTasklet(
+class AthenaSampleTasklet(
     val athenaClient: AthenaClient
 ) : Tasklet {
 
-    val log: Logger = LoggerFactory.getLogger(SampleTasklet::class.java)
+    val log: Logger = LoggerFactory.getLogger(AthenaSampleTasklet::class.java)
 
     override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus? {
 

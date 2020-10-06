@@ -21,8 +21,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+	implementation("com.amazonaws:aws-java-sdk-s3:1.11.860")
 	implementation("software.amazon.awssdk:athena:2.15.1")
-
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
