@@ -14,9 +14,9 @@ class S3UploadTasklet(
 
     override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus? {
 
-        val bucketName = "asuraiv-test"
+        val bucketName = "asuraiv-test/date=2020-01-01"
 
-        s3Client.putObject(bucketName, "2020-01-01", "Hello World!")
+        s3Client.putObject(bucketName, "hello_message.txt", "Hello World!")
 
         return RepeatStatus.FINISHED
     }
