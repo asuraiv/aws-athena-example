@@ -1,22 +1,29 @@
 package com.asuraiv.awsathena.example.job
 
-import com.amazonaws.services.s3.AmazonS3
 import org.springframework.batch.core.StepContribution
 import org.springframework.batch.core.scope.context.ChunkContext
 import org.springframework.batch.core.step.tasklet.Tasklet
 import org.springframework.batch.repeat.RepeatStatus
 import org.springframework.stereotype.Component
+import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.services.s3.S3Client
+import software.amazon.awssdk.services.s3.model.PutObjectRequest
+
 
 @Component
 class S3UploadTasklet(
-    val s3Client: AmazonS3
+    val s3Client: S3Client
 ) : Tasklet {
 
     override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus? {
 
-        val bucketName = "asuraiv-test/date=2020-01-01"
-
-        s3Client.putObject(bucketName, "hello_message.txt", "Hello World!")
+        s3Client.putObject(
+            PutObjectRequest.builder()
+                .bucket("asuraiv-test")
+                .key("hello_message.txt")
+                .build(),
+            RequestBody.fromString("Hello World!")
+        )
 
         return RepeatStatus.FINISHED
     }
