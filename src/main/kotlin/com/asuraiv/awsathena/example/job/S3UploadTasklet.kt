@@ -20,7 +20,7 @@ class S3UploadTasklet(
         s3Client.putObject(
             PutObjectRequest.builder()
                 .bucket("asuraiv-test")
-                .key("hello_message.txt")
+                .key("date=2020-01-01/hello_message.txt")
                 .build(),
             RequestBody.fromString("Hello World!")
         )
