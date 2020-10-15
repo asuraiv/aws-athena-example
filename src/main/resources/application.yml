@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    athena:
+      driver-class-name: com.simba.athena.jdbc.Driver
+      jdbc-url: jdbc:awsathena://AwsRegion=ap-northeast-2;User=AKIAWPCZIIW7JTT54MUV;Password=krttDjfE0dTuKWtfS6Ofs6Np+cAjvz8P+7hMQ0gF;S3OutputLocation=[Output]

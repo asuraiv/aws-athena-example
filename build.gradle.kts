@@ -25,6 +25,9 @@ dependencies {
 	implementation("software.amazon.awssdk:s3:2.15.7")
 	implementation("software.amazon.awssdk:athena:2.15.1")
 
+	implementation("com.syncron.amazonaws:simba-athena-jdbc-driver:2.0.2")
+	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
