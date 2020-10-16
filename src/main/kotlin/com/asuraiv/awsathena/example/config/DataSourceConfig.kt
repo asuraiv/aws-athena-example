@@ -1,8 +1,9 @@
-package com.asuraiv.awsathena.example.job.config
+package com.asuraiv.awsathena.example.config
 
 import com.zaxxer.hikari.HikariDataSource
 import org.apache.ibatis.session.SqlSessionFactory
 import org.mybatis.spring.SqlSessionFactoryBean
+import org.mybatis.spring.annotation.MapperScan
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
@@ -15,6 +16,10 @@ import javax.sql.DataSource
 
 @Configuration
 @EnableTransactionManagement
+@MapperScan(
+    basePackages = ["com.asuraiv.awsathena.example"],
+    sqlSessionFactoryRef = "sessionFactory"
+)
 class DataSourceConfig {
 
 

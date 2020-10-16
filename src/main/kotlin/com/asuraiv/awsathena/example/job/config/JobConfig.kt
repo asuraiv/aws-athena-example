@@ -1,5 +1,6 @@
 package com.asuraiv.awsathena.example.job.config
 
+import com.asuraiv.awsathena.example.job.AthenaMybatisSampleTasklet
 import com.asuraiv.awsathena.example.job.AthenaSampleTasklet
 import com.asuraiv.awsathena.example.job.S3UploadTasklet
 import org.springframework.batch.core.Job
@@ -14,6 +15,7 @@ class JobConfig(
     val jobBuilderFactory: JobBuilderFactory,
     val stepBuilderFactory: StepBuilderFactory,
     val athenaSampleTasklet: AthenaSampleTasklet,
+    val athenaMybatisSampleTasklet: AthenaMybatisSampleTasklet,
     val s3UploadTasklet: S3UploadTasklet
 ) {
 
@@ -27,7 +29,7 @@ class JobConfig(
     @Bean
     fun athenaSampleStep(): TaskletStep {
         return stepBuilderFactory["createBusScheduleStep"]
-            .tasklet(athenaSampleTasklet)
+            .tasklet(athenaMybatisSampleTasklet)
             .build()
     }
 

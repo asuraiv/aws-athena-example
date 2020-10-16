@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.asuraiv.awsathena.example.job.mapper.BusLocationMapper">
+
+	<select id="findAll" resultType="com.skt.tts.smartway.bisdata.preprocessor.buslocation.vo.BusLocation">
+		SELECT * FROM bis_data.bus_locations LIMIT 100
+	</select>
+
+</mapper>

@@ -1,4 +1,4 @@
-package com.asuraiv.awsathena.example.job.config
+package com.asuraiv.awsathena.example.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
