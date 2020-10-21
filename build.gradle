@@ -1,0 +1,112 @@
+buildscript {
+
+    ext {
+        kotlinVersion = '1.3.72'
+        springBootVersion = '2.0.9.RELEASE'
+
+        protoVersion= '3.4.0'
+        protobufGradlePluginVersion = "0.8.5"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+
+        classpath("com.google.protobuf:protobuf-gradle-plugin:${protobufGradlePluginVersion}")
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+apply plugin: "com.google.protobuf"
+
+group = 'com.asuraiv'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+def generatedDir="generated-sources"
+def protoOutputPath="${generatedDir}/protobuf-idl"
+
+protobuf {
+
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protoVersion}"
+    }
+
+    generateProtoTasks.generatedFilesBaseDir = "${generatedDir}"
+
+}
+
+sourceSets {
+
+    main {
+
+        proto {
+            srcDirs "${protoOutputPath}/proto"
+        }
+
+        kotlin {
+            srcDirs "/src/main/kotlin", "${project.rootDir}/generated-sources/main/java"
+        }
+    }
+}
+
+dependencies {
+
+    implementation "org.springframework.boot:spring-boot-starter-batch"
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+
+    implementation "software.amazon.awssdk:s3:2.15.7"
+    implementation "software.amazon.awssdk:athena:2.15.1"
+
+    implementation "com.syncron.amazonaws:simba-athena-jdbc-driver:2.0.2"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2"
+
+
+    // protobuf runtime lib
+    implementation "com.google.protobuf:protobuf-java:${protoVersion}"
+    implementation "com.google.protobuf:protobuf-java-util:${protoVersion}"
+    implementation "com.googlecode.protobuf-java-format:protobuf-java-format:1.4"
+
+    compile group: 'org.apache.parquet', name: 'parquet-protobuf', version: '1.11.1'
+    compile ('org.apache.hadoop:hadoop-common:3.1.4') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}

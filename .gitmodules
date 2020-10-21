@@ -1,0 +1,3 @@
+[submodule "generated-sources/protobuf-idl"]
+	path = generated-sources/protobuf-idl
+	url = https://github.com/asuraiv/protobuf-idl.git
