@@ -37,15 +37,15 @@ class AthenaSampleTasklet(
     private fun submitSampleQuery(): String {
 
         val queryExecutionContext = QueryExecutionContext.builder()
-            .database("bis_data")
+            .database("asuraiv_sample")
             .build()
 
         val resultConfiguration = ResultConfiguration.builder()
-            .outputLocation("s3://bisdata-test/query-results")
+            .outputLocation("s3://asuraiv-test/query-results")
             .build()
 
         val startQueryExecutionRequest = StartQueryExecutionRequest.builder()
-            .queryString("SELECT * FROM bus_locations LIMIT 10;")
+            .queryString("SELECT * FROM user LIMIT 10;")
             .queryExecutionContext(queryExecutionContext)
             .resultConfiguration(resultConfiguration)
             .build()

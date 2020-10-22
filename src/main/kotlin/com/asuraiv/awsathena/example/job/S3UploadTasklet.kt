@@ -44,28 +44,27 @@ class S3UploadTasklet(
         val parquetGenerator = ParquetGenerator()
         val path = parquetGenerator.generate(users = users)
 
-
-
         val yyyyMMdd = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         val key = path.name
 
-        val finalBucketName = "asuraiv-test/date=${yyyyMMdd}"
+        val bucket = "asuraiv-test"
+        val subBucket = "users/date=${yyyyMMdd}"
         val file = File(path.toUri().path)
 
         try {
             s3Client.putObject(
                 PutObjectRequest.builder()
-                    .bucket("asuraiv-test")
-                    .key("date=${yyyyMMdd}/${path.name}")
+                    .bucket(bucket)
+                    .key("$subBucket/$key")
                     .build(),
                 RequestBody.fromFile(file)
             )
-            log.info("S3 Upload completed. bucket: $finalBucketName, key: $key")
+            log.info("S3 Upload completed. bucket: $bucket/$subBucket/, key: $key")
         } catch(e: Exception) {
             log.error("Error occur during upload to s3.", e)
         } finally {
             file.delete()
-            File("tmp/.${path.name}.crc").delete()
+            File("tmp/.$key.crc").delete()
         }
 
         return RepeatStatus.FINISHED
@@ -78,8 +77,6 @@ class S3UploadTasklet(
             .setAge(age)
             .setEmail(email)
             .setPhone(phone)
-            .setCreatedAt(Timestamp.newBuilder()
-                .setSeconds(Date().seconds.toLong())
-            )
+            .setCreatedAt(Date().time)
             .build()
 }
