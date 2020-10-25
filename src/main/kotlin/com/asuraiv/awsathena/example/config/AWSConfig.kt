@@ -2,6 +2,7 @@ package com.asuraiv.awsathena.example.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider
 import software.amazon.awssdk.auth.credentials.SystemPropertyCredentialsProvider
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.athena.AthenaClient
@@ -22,7 +23,7 @@ class AWSConfig {
     fun s3Client(): S3Client? {
         return S3Client.builder()
             .region(Region.AP_NORTHEAST_2)
-            .credentialsProvider(SystemPropertyCredentialsProvider.create())
+            .credentialsProvider(ProfileCredentialsProvider.create())
             .build()
     }
 }
