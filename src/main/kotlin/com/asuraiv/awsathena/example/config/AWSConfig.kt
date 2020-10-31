@@ -15,7 +15,7 @@ class AWSConfig {
     fun athenaClient(): AthenaClient {
         return AthenaClient.builder()
             .region(Region.AP_NORTHEAST_2)
-            .credentialsProvider(SystemPropertyCredentialsProvider.create())
+            .credentialsProvider(ProfileCredentialsProvider.create())
             .build()
     }
 

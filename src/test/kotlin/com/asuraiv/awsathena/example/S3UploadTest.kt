@@ -1,6 +1,6 @@
 package com.asuraiv.awsathena.example
 
-import com.asuraiv.awsathena.example.job.helper.ParquetGenerator
+import com.asuraiv.awsathena.example.helper.ParquetGenerator
 import com.asuraiv.proto.messages.UserProto
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +20,7 @@ import kotlin.test.assertNotNull
 @ActiveProfiles("local")
 @RunWith(SpringRunner::class)
 @SpringBootTest
-class AwsAthenaExampleApplicationTests {
+class S3UploadTest {
 
 	@Autowired
 	lateinit var s3Client: S3Client

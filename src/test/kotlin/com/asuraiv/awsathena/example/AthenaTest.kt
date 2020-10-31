@@ -1,34 +1,31 @@
-package com.asuraiv.awsathena.example.job
+package com.asuraiv.awsathena.example
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.springframework.batch.core.StepContribution
-import org.springframework.batch.core.scope.context.ChunkContext
-import org.springframework.batch.core.step.tasklet.Tasklet
-import org.springframework.batch.repeat.RepeatStatus
-import org.springframework.stereotype.Component
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.junit4.SpringRunner
 import software.amazon.awssdk.services.athena.AthenaClient
 import software.amazon.awssdk.services.athena.model.*
 import software.amazon.awssdk.services.athena.paginators.GetQueryResultsIterable
 
-@Component
-class AthenaSampleTasklet(
-    val athenaClient: AthenaClient
-) : Tasklet {
+@ActiveProfiles("local")
+@RunWith(SpringRunner::class)
+@SpringBootTest
+class AthenaTest {
 
-    val log: Logger = LoggerFactory.getLogger(AthenaSampleTasklet::class.java)
+    @Autowired
+    lateinit var athenaClient: AthenaClient
 
-    override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus? {
-
-        log.info("Execute athena sample tasklet")
+    @Test
+    fun testBasicAthena() {
 
         val queryExecutionId = submitSampleQuery()
 
         waitForQueryToComplete(queryExecutionId)
 
         printResultRows(queryExecutionId)
-
-        return RepeatStatus.FINISHED
     }
 
     /*
@@ -87,7 +84,7 @@ class AthenaSampleTasklet(
                 else -> Thread.sleep(2000L)
             }
 
-            log.info("Current state is $state")
+            println("Current state is $state")
         }
     }
 
@@ -112,4 +109,5 @@ class AthenaSampleTasklet(
             }
         }
     }
+
 }

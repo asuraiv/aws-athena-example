@@ -2,4 +2,4 @@ spring:
   datasource:
     athena:
       driver-class-name: com.simba.athena.jdbc.Driver
-      jdbc-url: jdbc:awsathena://AwsRegion=ap-northeast-2;User=[AccessKey];Password=[SecretAccessKey]];S3OutputLocation=[S3 Path]
+      jdbc-url: jdbc:awsathena://AwsRegion=ap-northeast-2;User=[AccessKey];Password=[SecretAccessKey];S3OutputLocation=[S3 Path]

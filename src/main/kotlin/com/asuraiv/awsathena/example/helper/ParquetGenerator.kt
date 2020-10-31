@@ -1,4 +1,4 @@
-package com.asuraiv.awsathena.example.job.helper
+package com.asuraiv.awsathena.example.helper
 
 import com.asuraiv.proto.messages.UserProto
 import org.apache.hadoop.conf.Configuration

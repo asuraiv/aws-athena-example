@@ -1,4 +1,4 @@
-package com.asuraiv.awsathena.example.job.vo
+package com.asuraiv.awsathena.example.vo
 
 import java.util.*
 

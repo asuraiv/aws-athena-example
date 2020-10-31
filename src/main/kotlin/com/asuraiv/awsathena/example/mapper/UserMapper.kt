@@ -1,6 +1,6 @@
-package com.asuraiv.awsathena.example.job.mapper
+package com.asuraiv.awsathena.example.mapper
 
-import com.asuraiv.awsathena.example.job.vo.User
+import com.asuraiv.awsathena.example.vo.User
 import org.springframework.stereotype.Repository
 
 @Repository
